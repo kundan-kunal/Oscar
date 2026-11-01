@@ -31,7 +31,14 @@ export function SiteHeader() {
     if (scrollbarWidth > 0) body.style.paddingRight = `${scrollbarWidth}px`;
     main?.setAttribute("inert", "");
 
-    panelRef.current?.querySelector<HTMLAnchorElement>("a")?.focus();
+    const panel = panelRef.current;
+    if (panel) {
+      // focus() is a no-op while the overlay is still computed as
+      // visibility:hidden. Reading a layout property forces the style flush
+      // for the freshly added .is-open class, so the link is focusable now.
+      void panel.offsetHeight;
+      panel.querySelector<HTMLAnchorElement>("a")?.focus();
+    }
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {

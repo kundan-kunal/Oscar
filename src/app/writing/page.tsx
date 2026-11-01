@@ -51,45 +51,40 @@ export default function WritingPage() {
           </p>
         </section>
       ) : (
-        topics.map((topic) => {
-          const topicPosts = publishedPosts.filter(
-            (post) => post.topic === topic.id,
-          );
+        <div className="writing-groups section-shell">
+          {topics.map((topic) => {
+            const topicPosts = publishedPosts.filter(
+              (post) => post.topic === topic.id,
+            );
 
-          if (topicPosts.length === 0) return null;
+            if (topicPosts.length === 0) return null;
 
-          return (
-            <section
-              key={topic.id}
-              id={topic.id}
-              className="content-section section-shell"
-            >
-              <SectionHeading label={topic.label.toUpperCase()} />
+            return (
+              <section key={topic.id} id={topic.id} className="writing-group">
+                <SectionHeading label={topic.label.toUpperCase()} />
 
-              <div className="post-list">
-                {topicPosts.map((post, index) => (
-                  <Reveal key={post.slug} delay={index * 0.06}>
-                    <Link
-                      href={`/writing/${post.slug}`}
-                      className="post-row"
-                    >
-                      <time dateTime={post.date} className="post-date">
-                        {formatDate(post.date)}
-                      </time>
-                      <h2>{post.title}</h2>
-                      <p>{post.excerpt}</p>
-                      <ArrowUpRight
-                        className="interest-arrow"
-                        size={20}
-                        aria-hidden="true"
-                      />
-                    </Link>
-                  </Reveal>
-                ))}
-              </div>
-            </section>
-          );
-        })
+                <div className="post-list">
+                  {topicPosts.map((post, index) => (
+                    <Reveal key={post.slug} delay={index * 0.06}>
+                      <Link href={`/writing/${post.slug}`} className="post-row">
+                        <time dateTime={post.date} className="post-date">
+                          {formatDate(post.date)}
+                        </time>
+                        <h2>{post.title}</h2>
+                        <p>{post.excerpt}</p>
+                        <ArrowUpRight
+                          className="interest-arrow"
+                          size={20}
+                          aria-hidden="true"
+                        />
+                      </Link>
+                    </Reveal>
+                  ))}
+                </div>
+              </section>
+            );
+          })}
+        </div>
       )}
     </>
   );

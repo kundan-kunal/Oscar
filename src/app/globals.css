@@ -16,9 +16,13 @@
   --accent: #b7b7b7;
   --warm-accent: #e4cbb5;
 
-  --font-body: var(--font-body);
-  --font-display: var(--font-display);
-  --font-logo: var(--font-logo);
+  /*
+    --font-body / --font-display / --font-logo / --font-mono are injected on
+    <html> by next/font. Do not redeclare them here: `--font-body:
+    var(--font-body)` is a self-reference, which makes the property invalid at
+    computed-value time and silently drops every element back to the browser's
+    default serif.
+  */
 }
 
 * {
@@ -120,37 +124,51 @@ img {
   border-bottom: 1px solid var(--border);
 }
 
+/*
+  Reads as KUNdan / KUNal: "KUN" is shared by both words, with the endings
+  stacked beside it. The stack is sized to the cap height of KUN (~0.7em) so
+  the small words sit inside the capitals rather than floating above and
+  below them like super/subscript.
+*/
+
 .wordmark {
   display: inline-flex;
-  align-items: stretch;
-  height: 30px;
+  align-items: center;
 
   color: var(--foreground);
 
   font-family: var(--font-logo), sans-serif;
   font-weight: 700;
-  letter-spacing: -1.8px;
   line-height: 1;
 }
 
 .wordmark-main {
-  display: flex;
-  align-items: center;
-  font-size: 28px;
+  font-size: 36px;
   line-height: 1;
+  letter-spacing: -2px;
 }
 
 .wordmark-ending {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 
-  height: 28px;
-  margin-left: 1px;
+  margin-left: 5px;
 
-  font-size: 13px;
-  line-height: 13px;
-  letter-spacing: -0.5px;
+  /* ~0.4x the cap height of KUN, so the two lines together span it exactly. */
+  font-size: 14px;
+  line-height: 0.92;
+  letter-spacing: -0.3px;
+
+  /* Optical nudge: cap height is not perfectly centred in the line box. */
+  transform: translateY(-0.5px);
+}
+
+.wordmark-ending span {
+  display: block;
+}
+
+.wordmark:hover .wordmark-ending {
+  color: var(--warm-accent);
 }
 
 .header-location {
@@ -192,14 +210,25 @@ img {
 
   opacity: 0;
   visibility: hidden;
+
+  /*
+    visibility must flip discretely, never interpolate. Transitioning it
+    normally keeps the overlay computed as `hidden` for the whole duration,
+    so it pops in after the fade instead of with it — and cannot take focus
+    while it is opening. 0s with a delay hides it only once the fade-out ends.
+  */
   transition:
     opacity 0.3s ease,
-    visibility 0.3s ease;
+    visibility 0s linear 0.3s;
 }
 
 .menu-overlay.is-open {
   opacity: 1;
   visibility: visible;
+
+  transition:
+    opacity 0.3s ease,
+    visibility 0s linear 0s;
 }
 
 .menu-content {
@@ -456,7 +485,7 @@ img {
   align-items: center;
   gap: 24px;
 
-  margin-bottom: 75px;
+  margin-bottom: 56px;
 }
 
 .section-heading .eyebrow {
@@ -688,6 +717,10 @@ img {
    12. WRITING & INNER PAGES
 ========================================= */
 
+.page-intro {
+  padding-bottom: 72px;
+}
+
 .page-intro h1 {
   margin: 0 0 28px;
 
@@ -776,6 +809,23 @@ img {
   border-color: var(--warm-accent);
 }
 
+/* Topic groups */
+
+.writing-groups {
+  padding-top: 64px;
+  padding-bottom: 100px;
+
+  border-top: 1px solid var(--border);
+}
+
+.writing-group + .writing-group {
+  margin-top: 72px;
+}
+
+.writing-group .section-heading {
+  margin-bottom: 24px;
+}
+
 /* Post list */
 
 .post-list {
@@ -835,7 +885,9 @@ img {
 
 /* Single post */
 
-.post-article {
+.post-article h1,
+.post-body,
+.post-nav {
   max-width: 760px;
 }
 
@@ -966,13 +1018,13 @@ img {
   }
 
   .wordmark-main {
-    font-size: 25px;
+    font-size: 29px;
+    letter-spacing: -1.6px;
   }
 
   .wordmark-ending {
-    height: 26px;
-    font-size: 12px;
-    line-height: 12px;
+    margin-left: 4px;
+    font-size: 11px;
   }
 
   .header-location {
@@ -1146,7 +1198,11 @@ img {
 
   /* Writing & inner pages */
 
-  .page-intro h1 {
+  .page-intro {
+  padding-bottom: 72px;
+}
+
+.page-intro h1 {
     font-size: clamp(38px, 11vw, 60px);
   }
 
