@@ -1,0 +1,922 @@
+
+@import "tailwindcss";
+
+/* =========================================
+   01. DESIGN SYSTEM
+========================================= */
+
+:root {
+  --background: #090909;
+  --surface: #111111;
+  --surface-elevated: #191919;
+
+  --foreground: #f3f3f1;
+  --muted: #999999;
+  --subtle: #666666;
+
+  --border: #292929;
+  --accent: #b7b7b7;
+  --warm-accent: #e4cbb5;
+
+  --font-body: var(--font-body);
+  --font-display: var(--font-display);
+  --font-logo: var(--font-logo);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-body);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
+  background: var(--background);
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body), sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+}
+
+::selection {
+  background: var(--warm-accent);
+  color: #090909;
+}
+
+.section-shell {
+  width: min(100% - 96px, 1440px);
+  margin-inline: auto;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* =========================================
+   02. TYPOGRAPHY
+========================================= */
+
+.eyebrow,
+.header-location,
+.hero-topline,
+.menu-toggle,
+.menu-index,
+.scroll-link,
+.text-link,
+.wide-link,
+.contact-link,
+.footer-bottom,
+.interests-label {
+  font-family: var(--font-mono), monospace;
+  font-size: 10px;
+  letter-spacing: 0.09em;
+}
+
+.hero-name,
+.about-grid h2,
+.journal-intro h2,
+.beyond-content h2,
+.site-footer h2 {
+  font-family: var(--font-display), serif;
+  font-weight: 500;
+  letter-spacing: -0.045em;
+}
+
+.interest-row h3,
+.menu-content > a {
+  font-family: var(--font-body), sans-serif;
+}
+
+/* =========================================
+   03. HEADER & LOGO
+========================================= */
+
+.site-header {
+  height: 88px;
+  padding: 0 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  position: relative;
+  z-index: 20;
+
+  background: rgba(9, 9, 9, 0.88);
+  border-bottom: 1px solid var(--border);
+}
+
+.wordmark {
+  display: inline-flex;
+  align-items: stretch;
+  height: 30px;
+
+  color: var(--foreground);
+
+  font-family: var(--font-logo), sans-serif;
+  font-weight: 700;
+  letter-spacing: -1.8px;
+  line-height: 1;
+}
+
+.wordmark-main {
+  display: flex;
+  align-items: center;
+  font-size: 28px;
+  line-height: 1;
+}
+
+.wordmark-ending {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  height: 28px;
+  margin-left: 1px;
+
+  font-size: 13px;
+  line-height: 13px;
+  letter-spacing: -0.5px;
+}
+
+.header-location {
+  color: var(--subtle);
+}
+
+.menu-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 8px 0;
+
+  background: transparent;
+  border: 0;
+  color: var(--foreground);
+
+  cursor: pointer;
+}
+
+.menu-toggle:hover {
+  color: var(--warm-accent);
+}
+
+/* =========================================
+   04. FULL-SCREEN NAVIGATION
+========================================= */
+
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 15;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #101010;
+}
+
+.menu-content {
+  width: min(760px, calc(100% - 48px));
+}
+
+.menu-content > .eyebrow {
+  display: block;
+  color: var(--subtle);
+  margin-bottom: 32px;
+}
+
+.menu-content > a {
+  display: grid;
+  grid-template-columns: 48px 1fr 28px;
+  align-items: center;
+
+  padding: 17px 0;
+
+  border-bottom: 1px solid var(--border);
+
+  font-size: clamp(25px, 5vw, 42px);
+  letter-spacing: -0.05em;
+
+  transition: color 0.25s ease;
+}
+
+.menu-content > a:hover {
+  color: var(--warm-accent);
+}
+
+.menu-index {
+  color: var(--subtle);
+}
+
+.menu-content > a svg {
+  color: var(--subtle);
+}
+
+/* =========================================
+   05. CINEMATIC HERO
+========================================= */
+
+.hero-visual {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  width: 100%;
+  min-height: min(850px, calc(100svh - 88px));
+
+  padding: 28px 6% 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  border-bottom: 1px solid var(--border);
+}
+
+/* Background photograph */
+
+.hero-image {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+
+  background-image: url("/images/hero-mountains.png");
+  background-size: cover;
+  background-position: center 52%;
+
+  transform: scale(1.015);
+}
+
+/* Dark overlays for text readability */
+
+.hero-visual::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(9, 9, 9, 0.82) 0%,
+      rgba(9, 9, 9, 0.55) 37%,
+      rgba(9, 9, 9, 0.08) 75%
+    ),
+    linear-gradient(
+      0deg,
+      rgba(9, 9, 9, 0.88) 0%,
+      transparent 38%,
+      rgba(9, 9, 9, 0.18) 100%
+    );
+}
+
+/* Hero top information */
+
+.hero-visual .hero-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 10px;
+}
+
+/* Main hero text */
+
+.hero-visual .hero-content {
+  width: min(570px, 55%);
+
+  padding: 0;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.hero-visual .hero-intro {
+  color: #e0d3c4;
+  margin-bottom: 18px;
+}
+
+.hero-visual .hero-name {
+  margin: 0 0 18px;
+
+  color: #f5f1eb;
+
+  font-size: clamp(48px, 5.4vw, 76px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+
+  white-space: normal;
+}
+
+.hero-visual .hero-name em {
+  color: var(--warm-accent);
+  font-weight: 400;
+}
+
+/* Hero supporting text */
+
+.hero-visual .hero-description {
+  max-width: 440px;
+
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.84);
+
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+/* Hero buttons */
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+
+  margin-top: 30px;
+}
+
+.hero-button {
+  min-height: 48px;
+  padding: 0 22px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  border-radius: 7px;
+
+  font-size: 13px;
+
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.hero-button-primary {
+  background: #f2e6d5;
+  color: #171411;
+}
+
+.hero-button-primary:hover {
+  background: #ffffff;
+}
+
+.hero-button-secondary {
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  background: rgba(9, 9, 9, 0.12);
+}
+
+.hero-button-secondary:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #ffffff;
+}
+
+/* Areas of interest strip */
+
+.hero-interests {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  padding: 25px 0;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+
+  color: #eee4d9;
+  font-size: 13px;
+}
+
+.interests-label {
+  max-width: 100px;
+
+  color: #d2c1af;
+
+  line-height: 1.6;
+}
+
+/* =========================================
+   06. CONTENT SECTION COMMON STYLES
+========================================= */
+
+.content-section {
+  padding-top: 130px;
+  padding-bottom: 110px;
+
+  border-top: 1px solid var(--border);
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+
+  margin-bottom: 75px;
+}
+
+.section-heading .eyebrow {
+  color: var(--muted);
+}
+
+.section-line {
+  height: 1px;
+  flex: 1;
+  background: var(--border);
+}
+
+/* =========================================
+   07. ABOUT SECTION
+========================================= */
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 80px;
+}
+
+.about-grid h2,
+.journal-intro h2,
+.beyond-content h2 {
+  margin: 0;
+
+  font-size: clamp(38px, 6.2vw, 82px);
+  line-height: 1.02;
+  letter-spacing: -0.065em;
+  font-weight: 500;
+}
+
+.about-grid h2 span,
+.journal-intro h2 span,
+.beyond-content h2 span {
+  color: #777777;
+}
+
+.about-copy {
+  max-width: 460px;
+  padding-top: 8px;
+}
+
+.about-copy p,
+.journal-intro p,
+.beyond-content p {
+  margin: 0 0 22px;
+
+  color: var(--muted);
+
+  font-size: 15px;
+  line-height: 1.9;
+}
+
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+
+  margin-top: 20px;
+
+  color: var(--foreground);
+
+  transition: color 0.25s ease;
+}
+
+.text-link:hover {
+  color: var(--warm-accent);
+}
+
+/* =========================================
+   08. INTERESTS / AREAS OF WORK
+========================================= */
+
+.interest-list {
+  border-top: 1px solid var(--border);
+}
+
+.interest-row {
+  display: grid;
+  grid-template-columns: 70px 1.1fr 1fr 24px;
+  align-items: center;
+  gap: 20px;
+
+  padding: 30px 0;
+
+  border-bottom: 1px solid var(--border);
+}
+
+.interest-number {
+  color: var(--subtle);
+
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+}
+
+.interest-row h3 {
+  margin: 0;
+
+  font-size: clamp(21px, 3vw, 34px);
+  font-weight: 400;
+  letter-spacing: -0.05em;
+}
+
+.interest-row p {
+  color: var(--muted);
+
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.interest-arrow {
+  color: var(--subtle);
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.interest-row:hover .interest-arrow {
+  color: var(--warm-accent);
+  transform: translate(3px, -3px);
+}
+
+/* =========================================
+   09. JOURNAL SECTION
+========================================= */
+
+.journal-intro {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 50px;
+
+  margin-bottom: 80px;
+}
+
+.journal-intro p {
+  max-width: 350px;
+}
+
+.wide-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 22px 0;
+
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+
+  transition: color 0.25s ease;
+}
+
+.wide-link:hover {
+  color: var(--warm-accent);
+}
+
+/* =========================================
+   10. BEYOND WORK
+========================================= */
+
+.beyond-content {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 50px;
+}
+
+.beyond-content p {
+  max-width: 360px;
+}
+
+/* =========================================
+   11. FOOTER & CONTACT
+========================================= */
+
+.site-footer {
+  padding-top: 100px;
+  padding-bottom: 28px;
+
+  border-top: 1px solid var(--border);
+}
+
+.site-footer h2 {
+  max-width: 700px;
+
+  margin: 28px 0;
+
+  font-size: clamp(42px, 7vw, 90px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.075em;
+}
+
+.contact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+
+  padding-bottom: 70px;
+
+  transition: color 0.25s ease;
+}
+
+.contact-link:hover {
+  color: var(--warm-accent);
+}
+
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  padding-top: 25px;
+
+  border-top: 1px solid var(--border);
+
+  color: var(--subtle);
+}
+
+.footer-bottom .wordmark {
+  color: var(--foreground);
+  transform: scale(0.8);
+  transform-origin: left center;
+}
+
+/* =========================================
+   12. TABLET RESPONSIVENESS
+========================================= */
+
+@media (max-width: 1000px) {
+  .hero-visual .hero-content {
+    width: min(560px, 65%);
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+
+  .interest-row {
+    grid-template-columns: 45px 1fr 1fr 20px;
+    gap: 14px;
+  }
+}
+
+/* =========================================
+   13. MOBILE RESPONSIVENESS
+========================================= */
+
+@media (max-width: 700px) {
+  .section-shell {
+    width: calc(100% - 40px);
+  }
+
+  /* Header */
+
+  .site-header {
+    height: 72px;
+    padding: 0 20px;
+  }
+
+  .wordmark-main {
+    font-size: 25px;
+  }
+
+  .wordmark-ending {
+    height: 26px;
+    font-size: 12px;
+    line-height: 12px;
+  }
+
+  .header-location {
+    display: none;
+  }
+
+  /* Hero */
+
+  .hero-visual {
+    min-height: calc(100svh - 72px);
+    padding: 22px 20px 0;
+  }
+
+  .hero-visual .hero-topline {
+    gap: 15px;
+    font-size: 8px;
+  }
+
+  .hero-visual .hero-topline span:last-child {
+    text-align: right;
+  }
+
+  .hero-image {
+    background-position: 62% center;
+  }
+
+  .hero-visual::before {
+    background:
+      linear-gradient(
+        90deg,
+        rgba(9, 9, 9, 0.72),
+        rgba(9, 9, 9, 0.2)
+      ),
+      linear-gradient(
+        0deg,
+        rgba(9, 9, 9, 0.94),
+        transparent 65%
+      );
+  }
+
+  .hero-visual .hero-content {
+    width: 100%;
+    margin-top: auto;
+    margin-bottom: 65px;
+  }
+
+  .hero-visual .hero-intro {
+    font-size: 9px;
+  }
+
+  .hero-visual .hero-name {
+    font-size: clamp(45px, 12vw, 64px);
+  }
+
+  .hero-visual .hero-description {
+    max-width: 340px;
+    font-size: 14px;
+  }
+
+  .hero-actions {
+    gap: 10px;
+    margin-top: 24px;
+  }
+
+  .hero-button {
+    min-height: 44px;
+    padding: 0 15px;
+    font-size: 12px;
+  }
+
+  .hero-interests {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px 10px;
+
+    padding: 20px 0;
+
+    font-size: 11px;
+  }
+
+  .interests-label {
+    grid-column: 1 / -1;
+    max-width: none;
+  }
+
+  /* Content sections */
+
+  .content-section {
+    padding-top: 85px;
+    padding-bottom: 75px;
+  }
+
+  .section-heading {
+    gap: 15px;
+    margin-bottom: 45px;
+  }
+
+  .section-heading .eyebrow {
+    font-size: 9px;
+  }
+
+  .about-grid,
+  .journal-intro,
+  .beyond-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
+  }
+
+  .about-grid h2,
+  .journal-intro h2,
+  .beyond-content h2 {
+    font-size: clamp(42px, 11vw, 66px);
+  }
+
+  .about-copy p,
+  .journal-intro p,
+  .beyond-content p {
+    font-size: 14px;
+  }
+
+  /* Interests */
+
+  .interest-row {
+    grid-template-columns: 34px 1fr 20px;
+    gap: 12px;
+
+    padding: 22px 0;
+  }
+
+  .interest-row h3 {
+    font-size: 23px;
+  }
+
+  .interest-row p {
+    grid-column: 2;
+    margin: -4px 0 0;
+  }
+
+  .interest-arrow {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  /* Journal */
+
+  .journal-intro {
+    margin-bottom: 48px;
+  }
+
+  /* Footer */
+
+  .site-footer {
+    padding-top: 75px;
+  }
+
+  .site-footer h2 {
+    font-size: clamp(42px, 10vw, 65px);
+  }
+
+  .contact-link {
+    padding-bottom: 50px;
+  }
+
+  .footer-bottom {
+    flex-wrap: wrap;
+    gap: 18px;
+    font-size: 8px;
+  }
+}
+
+/* =========================================
+   14. SMALL MOBILE SCREENS
+========================================= */
+
+@media (max-width: 380px) {
+  .hero-visual .hero-name {
+    font-size: 43px;
+  }
+
+  .hero-button {
+    padding: 0 11px;
+    font-size: 11px;
+  }
+
+  .hero-interests {
+    font-size: 10px;
+  }
+
+  .footer-bottom {
+    font-size: 7px;
+  }
+}
+
+/* =========================================
+   15. ACCESSIBILITY
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
